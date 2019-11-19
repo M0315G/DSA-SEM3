@@ -28,6 +28,41 @@ int height(struct node *t1){
         return t1->height;
     }
 }
+
+struct node *rightRotate(struct node *y) 
+{ 
+    struct node *x = y->left; 
+    struct node *T2 = x->right; 
+  
+    // Perform rotation 
+    x->right = y; 
+    y->left = T2; 
+    printf("Right Rotation");
+    // Update heights 
+    y->height = max(height(y->left), height(y->right))+1; 
+    x->height = max(height(x->left), height(x->right))+1; 
+  
+    // Return new root 
+    return x; 
+} 
+  
+
+struct node *leftRotate(struct node *x) 
+{ 
+    struct node *y = x->right; 
+    struct node *T2 = y->left; 
+  
+    // Perform rotation 
+    y->left = x; 
+    x->right = T2; 
+    printf("Left Rotation");
+    //  Update heights 
+    x->height = max(height(x->left), height(x->right))+1; 
+    y->height = max(height(y->left), height(y->right))+1; 
+  
+    // Return new root 
+    return y; 
+} 
 int balance_factor(struct node *temp){
     if(temp==NULL){
         return 0;
@@ -51,23 +86,41 @@ struct node* insert(struct node *root,int info){
     
     if(balance>1 && info<root->left->info){
         // Left Left Case
+        return rightRotate(root);
 
     }else if(balance<-1 && info>root->right->info){
         // Right Right Case
+        return leftRotate(root);
 
     }else if(balance>1 && info>root->left->info){
         // Left Right Case
+        root->left=leftRotate(root->left);
+        return rightRotate(root);
 
     }else if(balance<-1 && info<root->right->info){
         // Right Left Case
+        root->right=rightRotate(root->right);
+        return leftRotate(root);
 
     }
 
      return root;
 }
 
+void preordertraversal(struct node *root){
+    if(root==NULL){
+        return;
+    }else{
+        printf("\t%d",root->info);
+        preordertraversal(root->left);
+        preordertraversal(root->right);
+        return;
+    }
+}
+
 void main(){
     int choice;
+    struct node *root=NULL;
         while(choice!=-1){
             printf("!----------------------------------------------------------------------------------------!");
             printf("\nEnter your choice:-\n1 for Insertion.\n2 for Deletion.\n3 for Traversal.\n-1 to Exit.");
@@ -76,12 +129,17 @@ void main(){
             switch(choice){
                 case 1:
                     //Calling Insert function which will insert according to BST.
+                    int info;
+                    printf("Enter the number you want to insert.");
+                    scanf("%d",&info);
+                    root=insert(root,info);
                     break;
                 case 2:
                     //Calling delete function which will delete according to BST.
                     break;
                 case 3:
                     //Traversing function to print all the elements of the tree.
+                    preordertraversal(root);
                     break;
                 case -1:
                     //Exit the program.
