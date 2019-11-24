@@ -80,16 +80,16 @@ struct node* insert(struct node* temp,int data){
             //Rotate Right Once.
             printf("Doing LL Rotation");
             temp=RightRotation(temp);
-        }else if(bf==3&&checkBalanceFactor(temp->left)==-2){
+        }else if(bf==2&&checkBalanceFactor(temp->left)==-1){
             //Rotate Left once then rotate Right.
             printf("Doing LR Rotation");
             temp->left=LeftRotation(temp->left);
             temp=RightRotation(temp);
-        }else if(bf==-3&&checkBalanceFactor(temp->right)==-2){
+        }else if(bf==-2&&checkBalanceFactor(temp->right)==-1){
             //Rotate Left once.
             printf("Doing RR Rotation");
             temp=LeftRotation(temp);
-        }else if(bf==-3&&checkBalanceFactor(temp->right)==2){
+        }else if(bf==-2&&checkBalanceFactor(temp->right)==1){
             //Rotate Right once then do Left Rotation.
             printf("Doing RL Rotation");
             temp->right=RightRotation(temp->right);
